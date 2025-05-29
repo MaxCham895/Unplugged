@@ -186,6 +186,37 @@ class DummyDataManager: ObservableObject {
             }
         }
     }
+
+    // MARK: - User-Facing Summary
+var dailyScreenTimeSummary: String {
+    let percentageUsed = Int(todayProgress * 100)
+    return "You’ve reached \(percentageUsed)% of your screen time today."
+}
+
+    // MARK: - Community Groups and Friends
+@Published var joinedGroups: [String] = ["Night Owls", "Focus Warriors"]
+@Published var availableGroups: [String] = ["Digital Detoxers", "Mindful Mornings", "Zero Notifications"]
+
+struct FriendProgress: Identifiable {
+    let id = UUID()
+    let name: String
+    let screenTime: Int // in minutes
+}
+
+@Published var friends: [FriendProgress] = [
+    FriendProgress(name: "Alex", screenTime: 130),
+    FriendProgress(name: "Taylor", screenTime: 95),
+    FriendProgress(name: "Sam", screenTime: 150)
+]
+
+func joinGroup(_ group: String) {
+    if !joinedGroups.contains(group) {
+        joinedGroups.append(group)
+        availableGroups.removeAll { $0 == group }
+    }
+}
+
+    
     
     private init() {}
 }
